@@ -1,0 +1,178 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<!-- parley-fsh-debug: running and debugging fsh scripts, with no user interface; Fsh Studio and fshdb are built on it -->
+	<groupId>us.bringardner</groupId>
+	<artifactId>parley-fsh-debug</artifactId>
+	<version>2.0.0-SNAPSHOT</version>
+	<name>parley-fsh-debug - running and debugging fsh scripts</name>
+	<description>Runs and debugs bash/POSIX-style scripts with fsh (the FileSource Shell) as the
+		interpreter: breakpoints, watchpoints, stepping, variables, and the arguments and redirects
+		each script is run with. No user interface; Fsh Studio and fshdb are built on it.</description>
+	<url>https://github.com/parley-project/parley-fsh-debug</url>
+	<inceptionYear>2004</inceptionYear>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<id>tony-bringardner</id>
+			<name>Tony Bringardner</name>
+			<url>https://github.com/tony-bringardner</url>
+		</developer>
+	</developers>
+	<scm>
+		<connection>scm:git:https://github.com/parley-project/parley-fsh-debug.git</connection>
+		<developerConnection>scm:git:ssh://git@github.com/parley-project/parley-fsh-debug.git</developerConnection>
+		<url>https://github.com/parley-project/parley-fsh-debug/tree/master</url>
+	</scm>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.release>11</maven.compiler.release>
+		<fsh.version>2.0.0-SNAPSHOT</fsh.version>
+		<parley.version>2.0.0-SNAPSHOT</parley.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.4.2</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+							<Automatic-Module-Name>us.bringardner.fsh.debug</Automatic-Module-Name>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<!-- A JVM per test class, as in Fsh Studio, where these tests came from: the shell
+					     environment is found once per JVM -->
+					<reuseForks>false</reuseForks>
+					<systemPropertyVariables>
+						<java.awt.headless>true</java.awt.headless>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+		</plugins>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.13.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>3.5.2</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<profiles>
+		<!-- Maven Central: mvn -Prelease clean deploy (sources, javadoc, GPG signatures, upload) -->
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>3.3.1</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>3.11.2</version>
+						<configuration>
+							<!-- Lenient so existing code releases cleanly; tighten to all,-missing later -->
+							<doclint>none</doclint>
+							<release>${maven.compiler.release}</release>
+						</configuration>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>3.2.7</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+								<!-- Passphrase comes from the MAVEN_GPG_PASSPHRASE environment variable -->
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.sonatype.central</groupId>
+						<artifactId>central-publishing-maven-plugin</artifactId>
+						<version>0.11.0</version>
+						<extensions>true</extensions>
+						<configuration>
+							<!-- Matches the <server><id> in ~/.m2/settings.xml -->
+							<publishingServerId>central</publishingServerId>
+							<!-- false: you review and click Publish on central.sonatype.com -->
+							<autoPublish>false</autoPublish>
+							<deploymentName>${project.artifactId} ${project.version}</deploymentName>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<!-- The interpreter: the shell, its parser, jobs and the debugging hooks -->
+		<dependency>
+			<groupId>us.bringardner</groupId>
+			<artifactId>fsh</artifactId>
+			<version>${fsh.version}</version>
+		</dependency>
+		<!-- Used directly: FileSource (scripts and the run settings can be on any file system) -->
+		<dependency>
+			<groupId>us.bringardner.parley</groupId>
+			<artifactId>parley-files</artifactId>
+			<version>${parley.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.11.4</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
