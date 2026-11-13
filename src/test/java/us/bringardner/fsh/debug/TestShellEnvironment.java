@@ -71,13 +71,13 @@ public class TestShellEnvironment {
 	public void getsWhatTheLoginShellExports() throws Exception {
 		Files.writeString(home.resolve(".bash_profile"),
 				"echo 'hello from the profile'\n"
-				+"export FSHIDE_FROM_PROFILE='set by .bash_profile'\n"
+				+"export FSH_STUDIO_FROM_PROFILE='set by .bash_profile'\n"
 				+"NOT_EXPORTED=1\n"
 				+"alias ll='ls -l'\n"
-				+"[ -n \"$"+ShellEnvironment.READER+"\" ] && export FSHIDE_SAW_READER=yes\n");
+				+"[ -n \"$"+ShellEnvironment.READER+"\" ] && export FSH_STUDIO_SAW_READER=yes\n");
 		Map<String,String> env = ShellEnvironment.capture("/bin/bash", 15, Map.of("HOME", home.toString()));
-		assertEquals("set by .bash_profile", env.get("FSHIDE_FROM_PROFILE"));
-		assertEquals("yes", env.get("FSHIDE_SAW_READER"));
+		assertEquals("set by .bash_profile", env.get("FSH_STUDIO_FROM_PROFILE"));
+		assertEquals("yes", env.get("FSH_STUDIO_SAW_READER"));
 		assertFalse(env.containsKey("NOT_EXPORTED"));
 		assertFalse(env.containsKey(ShellEnvironment.READER));
 		assertTrue(env.containsKey("PATH"));

@@ -43,13 +43,13 @@ import java.util.function.Consumer;
 public final class ShellEnvironment {
 
 	/** set while the shell runs for its environment */
-	public static final String READER = "FSH_IDE_ENVIRONMENT_READER";
+	public static final String READER = "FSH_STUDIO_ENVIRONMENT_READER";
 
 	/** how long the shell may take */
 	static final long TIMEOUT_SECONDS = 15;
 
 	/** what the shell prints before its environment, so what its startup files print is passed over */
-	static final String MARKER = "--fsh-ide-environment--";
+	static final String MARKER = "--fsh-studio-environment--";
 
 	/** the shell's own, not the environment's: not taken */
 	static final Set<String> SHELLS_OWN = Set.of("PWD", "OLDPWD", "SHLVL", "_", READER);

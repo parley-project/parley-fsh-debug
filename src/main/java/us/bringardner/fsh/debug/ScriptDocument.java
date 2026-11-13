@@ -21,7 +21,7 @@ import us.bringardner.parley.files.FileSource;
  * A script being edited: its code, and the arguments and redirects it's run with.
  * <p>
  * The script file holds only the code; the settings are kept per user in a RunSettingsStore
- * (see open and save). Scripts saved by earlier versions (BjlShellIde, and fsh-ide before
+ * (see open and save). Scripts saved by earlier versions (BjlShellIde, and Fsh Studio before
  * this change) carry the settings in comment lines (#BjlIdeScriptArgs= and so on); those are
  * still read, and saving the script moves them to the store and leaves them out of the file.
  */

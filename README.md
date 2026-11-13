@@ -7,7 +7,7 @@ It has no user interface: it is the engine that
 [fshdb](https://github.com/parley-project/parley-fshdb) (the terminal debugger) are both built on,
 so it never uses Swing, JavaFX or any other UI toolkit.
 
-The classes came from Fsh Studio's `us.bringardner.fsh.ide.core` package in November 2026.
+The classes came from Fsh Studio's core package in November 2026.
 
 ## What's in it
 

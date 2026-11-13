@@ -48,7 +48,7 @@ public class TestDebugVariables {
 	 */
 	@Test
 	public void theLoginShellsEnvironmentIsFshs() {
-		String name = "FSH_IDE_TEST_ONLY_IN_THE_LOGIN_SHELL";
+		String name = "FSH_STUDIO_TEST_ONLY_IN_THE_LOGIN_SHELL";
 		assertFalse(DebugVariables.isFshDefined(name));
 		ShellEnvironment.setForTests(Map.of(name, "/a/b"));
 		try {
