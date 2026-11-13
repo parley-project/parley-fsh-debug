@@ -32,7 +32,8 @@ import us.bringardner.parley.files.fileproxy.FileProxyFactory;
 
 /**
  * The arguments and redirects of the user's scripts, kept apart from the scripts (in
- * ~/.fsh-ide/run-settings) so a script holds nothing but its code. fsh-ide and fshdb share it.
+ * ~/.fsh-studio/run-settings, see SettingsFolder) so a script holds nothing but its code.
+ * Fsh Studio and fshdb share it.
  * <ul>
  * <li>Only scripts with something set are kept: putting empty settings removes a script's
  *     entry.</li>
@@ -52,8 +53,6 @@ import us.bringardner.parley.files.fileproxy.FileProxyFactory;
  */
 public class RunSettingsStore {
 
-	/** The folder in the user's home where Fsh Studio and fshdb keep their settings. */
-	public static final String SETTINGS_DIR = ".fsh-ide";
 	static final String FILE = "run-settings";
 	public static final int DEFAULT_MAX_AGE_DAYS = 180;
 	public static final int DEFAULT_MAX_ENTRIES = 500;
@@ -91,13 +90,12 @@ public class RunSettingsStore {
 		this.clock = clock;
 	}
 
-	/** The user's: ~/.fsh-ide/run-settings. */
+	/** The user's: ~/.fsh-studio/run-settings. */
 	public static RunSettingsStore forUser() {
 		if( user == null ) {
 			synchronized (RunSettingsStore.class) {
 				if( user == null ) {
-					File dir = new File(System.getProperty("user.home"), SETTINGS_DIR);
-					user = new RunSettingsStore(new File(dir, FILE));
+					user = new RunSettingsStore(new File(SettingsFolder.forUser(), FILE));
 				}
 			}
 		}

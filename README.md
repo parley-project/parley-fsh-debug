@@ -21,7 +21,7 @@ Everything is in the package `us.bringardner.fsh.debug`.
    `Variable` for the variables of a paused script.
 3. **Scripts and their settings**: `ScriptText` and `ScriptDocument` hold a script's text and the
    arguments and redirects it runs with. `RunSettings` and `RunSettingsStore` keep those per user,
-   in `~/.fsh-ide/run-settings`, not in the script.
+   in `~/.fsh-studio/run-settings`, not in the script.
 4. **Completion**: `Completions` finds what can finish the word being typed: templates (`if`,
    `for`, `case` and so on, each a `Template`) and the variables the script sets.
 
