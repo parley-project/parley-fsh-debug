@@ -5,6 +5,9 @@
 First version: running and debugging fsh scripts, with no user interface, shared by Fsh Studio
 and fshdb.
 
+- The variable a login shell sees while its environment is read is `FSH_STUDIO_ENVIRONMENT_READER`
+  (it was `FSH_IDE_ENVIRONMENT_READER` in Fsh Studio).
+
 - `ScriptText`, `ScriptDocument`, `ScriptRun`, `RunSettings`, `RunSettingsStore`, `DebugSession`,
   `DebugVariables`, `Breakpoint`, `Watchpoint`, `Variable`, `ShellEnvironment`, `Completions` and
   `Template` moved here from Fsh Studio's `us.bringardner.fsh.ide.core` package, as they were, to

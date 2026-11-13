@@ -223,7 +223,7 @@ public class RunSettingsStore {
 	 * Drops the entries that are probably orphans: those not used for getMaxAgeDays(), those
 	 * for local files that no longer exist, and, past getMaxEntries(), the least recently
 	 * used. Remote files aren't looked for (that could mean connecting to every server they
-	 * were on); they go by age. Run it now and then (fsh-ide does when it starts).
+	 * were on); they go by age. Run it now and then (Fsh Studio does when it starts).
 	 * @return how many were dropped
 	 */
 	public int prune() throws IOException {
