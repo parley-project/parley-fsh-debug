@@ -47,7 +47,8 @@ public class TestShellEnvironment {
 			java.util.concurrent.BlockingQueue<String> none = new java.util.concurrent.LinkedBlockingQueue<>();
 			ShellEnvironment.logStatus(none::add);
 			assertEquals(null, assertDoesNotThrow(()->none.poll(1, java.util.concurrent.TimeUnit.SECONDS)));
-			ShellEnvironment.setForTests(Map.of("PATH", "/a/bin:/b/bin", "FSH_ENV", "/x/env.fsh", "WHO", "tony"));
+			// (a PATH is separated by ; on Windows and : elsewhere)
+			ShellEnvironment.setForTests(Map.of("PATH", "/a/bin"+java.io.File.pathSeparator+"/b/bin", "FSH_ENV", "/x/env.fsh", "WHO", "tony"));
 			assertTrue(ShellEnvironment.status().startsWith("Scripts run with the environment of the login shell"), ShellEnvironment.status());
 			// the Log tab's line, on every run
 			java.util.concurrent.BlockingQueue<String> log = new java.util.concurrent.LinkedBlockingQueue<>();
