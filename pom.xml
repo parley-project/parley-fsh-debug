@@ -158,7 +158,7 @@
 		<!-- The interpreter: the shell, its parser, jobs and the debugging hooks -->
 		<dependency>
 			<groupId>us.bringardner</groupId>
-			<artifactId>fsh</artifactId>
+			<artifactId>parley-fsh</artifactId>
 			<version>${fsh.version}</version>
 		</dependency>
 		<!-- Used directly: FileSource (scripts and the run settings can be on any file system) -->
